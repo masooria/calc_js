@@ -6,6 +6,33 @@ let buffer = "0";
 const screen = document.querySelector(".screen");
 const up_screen = document.querySelector(".up-screen");
 
+function perform_op(n1,n2,op){
+  n1 = parseInt(n1)
+  n2 = parseInt(n2)
+  switch (op){
+    case '+':
+    return n1 + n2;
+    case '-':
+      return n1 - n2;
+    case '*':
+      return n1 * n2;
+    case '/':
+      return n1 / n2; 
+  }
+}
+
+function running_eval(str) {
+  let nums = str.match(/\d+/g);
+  let opers = str.match(/\+|-|\*|\//g);
+  let result = 0;
+  for (opr of opers) {
+    result = perform_op(nums[0], nums[1], opr);
+    nums = [result].concat(nums.slice(2));
+  }
+  console.log(result);
+  return result;
+}
+
 function evaluate(expr){
   
   return eval (expr);
@@ -79,6 +106,10 @@ function handleSymbol(value){
     case '=':
         buffer = evaluate(infoBar);
         prev = value;
+        break;
+    case '≈':
+        buffer = running_eval(infoBar);
+        prev = value;
   }
 }
 
@@ -105,8 +136,9 @@ function init() {
 
 init();
 
-var array1 = [5, 12, 8, 130, 44];
 
-var found = array1.find(function(element) {
-  return element > 10;
-});
+
+// str = '23+2*3-70*2/5'
+// str = '2+3*2'
+// running_eval(str);
+
